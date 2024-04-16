@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "834956701513",
+    "project_id": "iosapp-c69c9",
+    "storage_bucket": "iosapp-c69c9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:834956701513:android:61dfc4e5bc316553c0f498",
+        "android_client_info": {
+          "package_name": "com.example.foodu"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAN2J1PZzx-DK98snK0We0i20RJkNpIzCk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:834956701513:android:7acb5b838bcc4eccc0f498",
+        "android_client_info": {
+          "package_name": "com.moviles.RestaurantsApp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAN2J1PZzx-DK98snK0We0i20RJkNpIzCk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
