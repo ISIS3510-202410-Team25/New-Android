@@ -1,3 +1,5 @@
+package com.example.foodu.screens.orders
+
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,10 +25,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 
-
-@Preview(showBackground = true)
+@Preview()
 @Composable
 fun PreviewOrdersScreen() {
     val navController = rememberNavController()
@@ -71,7 +73,8 @@ fun TopBar(
 @Composable
 fun OrdersScreen(
     navController: NavController = rememberNavController(),
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: OrdersViewModel = hiltViewModel()
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
 
