@@ -4,6 +4,8 @@ plugins {
 
     // Google Service
     id("com.google.gms.google-services")
+    id("com.google.firebase.firebase-perf")
+    id("com.google.firebase.crashlytics")
 
     // This is for Hilt - Dagger
     kotlin("kapt")
@@ -94,12 +96,18 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.firebase:firebase-analytics-ktx")
+    implementation("com.google.firebase:firebase-perf")
+    implementation("com.google.firebase:firebase-crashlytics")
     implementation("com.google.firebase:firebase-analytics")
 
     implementation("androidx.compose.compiler:compiler:1.5.11")
 
     // Splash Screen
     implementation("androidx.core:core-splashscreen:1.0.1")
+
+    // Kotlin Utils
+    implementation(kotlin("reflect"))
 }
 
 kapt {
