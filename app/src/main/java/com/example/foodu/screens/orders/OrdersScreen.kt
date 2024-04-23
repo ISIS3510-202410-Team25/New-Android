@@ -20,28 +20,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.foodu.R
 import com.example.foodu.util.rememberImeState
 
+@Preview(showBackground = true)
 @Composable
 fun OrdersScreen(
-    modifier: Modifier,
-    navController: NavController,
+    modifier: Modifier = Modifier,
+    navController: NavController = rememberNavController(),
     viewModel: OrdersViewModel = hiltViewModel()
 ) {
     val orderList = ""
     val pastOrderList = ""
 
-    val imeState = rememberImeState()
-    val scrollState = rememberScrollState()
-
-    LaunchedEffect(key1 = imeState.value) {
-        if (imeState.value){
-            scrollState.animateScrollTo(scrollState.maxValue, tween(300))
-        }
-    }
     @Composable
     fun TopPanel(onHomeClick: () -> Unit) {
         NavigationBar {
@@ -56,9 +51,7 @@ fun OrdersScreen(
         }
     }
     Column(modifier = Modifier.fillMaxSize()) {
-        TopPanel(onHomeClick = {
-
-        })
+        TopPanel(onHomeClick = {})
         NavigationBar {
             NavigationBarItem(
                 icon = { Icon(Icons.Filled.Home, contentDescription = "Home Icon") },
