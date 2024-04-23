@@ -75,7 +75,7 @@ fun CouponsScreen(
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
 
-        TopBar(text = "Buscar", navController = navController)
+        TopBar(text = "Coupons", navController = navController)
 
         // Dynamic Boxes
         repeat(5) { index ->

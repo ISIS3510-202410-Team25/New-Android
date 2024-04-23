@@ -71,7 +71,7 @@ fun OrdersScreen(
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
 
-        TopBar(text = "Buscar", navController = navController)
+        TopBar(text = "Orders", navController = navController)
         // Primer Box con dos líneas de texto
         Box(modifier = Modifier.weight(1f)) {
             Column {
