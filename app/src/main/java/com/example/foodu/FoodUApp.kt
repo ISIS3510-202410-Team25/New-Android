@@ -43,7 +43,7 @@ fun FoodUNavigation() {
         }
         
         composable(HOME_SCREEN) {
-            HomeScreen(navController = navController)
+            HomeScreen(modifier = Modifier, navController = navController)
         }
     }
 }
