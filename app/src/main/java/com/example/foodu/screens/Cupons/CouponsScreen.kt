@@ -25,17 +25,16 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.navigation.compose.rememberNavController
 
+
 @Preview(showBackground = true)
 @Composable
-fun PreviewOrdersScreen(
-    navController: NavController = rememberNavController()
-) {
-    OrdersScreen(navController = navController)
+fun PreviewCouponsScreen() {
+    val navController = rememberNavController()
+    CouponsScreen(navController = navController)
 }
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TopBarOrders(
+fun TopBar(
     text: String,
     navController: NavController = rememberNavController(),
 ) {
@@ -56,35 +55,35 @@ fun TopBarOrders(
         actions = {
             IconButton(onClick = { /* do something */ }) {
                 Icon(
-                    imageVector = Icons.Default.Home,
+                    imageVector = Icons.Default.ShoppingCart,
+                    contentDescription = "Localized description"
+                )
+            }
+            IconButton(onClick = { /* do something */ }) {
+                Icon(
+                    imageVector = Icons.Default.Person,
                     contentDescription = "Localized description"
                 )
             }
         }
     )
 }
-
 @Composable
-fun OrdersScreen(
+fun CouponsScreen(
     navController: NavController = rememberNavController(),
     modifier: Modifier = Modifier
 ) {
     Column(modifier = Modifier.fillMaxSize()) {
 
         TopBar(text = "Buscar", navController = navController)
-        // Primer Box con dos líneas de texto
-        Box(modifier = Modifier.weight(1f)) {
-            Column {
-                Text("Ordenes Activas:")
-                Text("Lista de ordenes")
-            }
-        }
 
-        // Segundo Box con dos líneas de texto
-        Box(modifier = Modifier.weight(1f)) {
-            Column {
-                Text("Ordenes pasadas:")
-                Text("Lista de ordenes pasadas")
+        // Dynamic Boxes
+        repeat(5) { index ->
+            Box(
+                modifier = Modifier
+                    .weight(1f)
+            ) {
+                Text("Coupon $index")
             }
         }
 
@@ -106,7 +105,7 @@ fun OrdersScreen(
                 icon = { Icon(Icons.Filled.Star, contentDescription = "Restaurants Icon") },
                 label = { Text(text = "Restaurants") },
                 selected = false,
-                onClick = { /*TODO*/}
+                onClick = { /*TODO*/ }
             )
             NavigationBarItem(
                 icon = { Icon(Icons.Filled.ShoppingCart, contentDescription = "Order Icon") },
