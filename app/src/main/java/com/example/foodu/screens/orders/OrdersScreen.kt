@@ -1,64 +1,98 @@
-package com.example.foodu.screens.orders
-
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.filled.Star
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import com.example.foodu.R
-import com.example.foodu.util.rememberImeState
+import androidx.navigation.compose.rememberNavController
 
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewOrdersScreen() {
+    val navController = rememberNavController()
+    OrdersScreen(navController = navController)
+}
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TopBar(
+    text: String,
+    navController: NavController = rememberNavController(),
+) {
+    CenterAlignedTopAppBar(
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = Color(0xFF83C5BE),
+            titleContentColor = MaterialTheme.colorScheme.primary,
+        ),
+        title = {
+            Text(
+                text = text,
+                maxLines = 1,
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp
+            )
+        },
+        actions = {
+            IconButton(onClick = { /* do something */ }) {
+                Icon(
+                    imageVector = Icons.Default.ShoppingCart,
+                    contentDescription = "Localized description"
+                )
+            }
+            IconButton(onClick = { /* do something */ }) {
+                Icon(
+                    imageVector = Icons.Default.Person,
+                    contentDescription = "Localized description"
+                )
+            }
+        }
+    )
+}
 @Composable
 fun OrdersScreen(
-    modifier: Modifier,
-    navController: NavController,
-    viewModel: OrdersViewModel = hiltViewModel()
+    navController: NavController = rememberNavController(),
+    modifier: Modifier = Modifier
 ) {
-    val orderList = ""
-    val pastOrderList = ""
-
-    val imeState = rememberImeState()
-    val scrollState = rememberScrollState()
-
-    LaunchedEffect(key1 = imeState.value) {
-        if (imeState.value){
-            scrollState.animateScrollTo(scrollState.maxValue, tween(300))
-        }
-    }
-    @Composable
-    fun TopPanel(onHomeClick: () -> Unit) {
-        NavigationBar {
-            NavigationBarItem(
-                //painter = painterResource(R.drawable.logo),
-                //contentDescription = "Bowl Salad Banner",
-                icon = { Icon(Icons.Filled.Home, contentDescription = "Home Icon") },
-                label = { Text(text = "FOODU") },
-                selected = true,
-                onClick = onHomeClick
-            )
-        }
-    }
     Column(modifier = Modifier.fillMaxSize()) {
-        TopPanel(onHomeClick = {
 
-        })
+        TopBar(text = "Buscar", navController = navController)
+        // Primer Box con dos líneas de texto
+        Box(modifier = Modifier.weight(1f)) {
+            Column {
+                Text("Ordenes Activas:")
+                Text("Lista de ordenes")
+            }
+        }
+
+        // Segundo Box con dos líneas de texto
+        Box(modifier = Modifier.weight(1f)) {
+            Column {
+                Text("Ordenes pasadas:")
+                Text("Lista de ordenes pasadas")
+            }
+        }
+
+        // Barra de navegación al fondo
         NavigationBar {
             NavigationBarItem(
                 icon = { Icon(Icons.Filled.Home, contentDescription = "Home Icon") },
@@ -86,7 +120,4 @@ fun OrdersScreen(
             )
         }
     }
-
-
-
 }
