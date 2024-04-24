@@ -133,7 +133,8 @@ fun TopBar(
                 text = text,
                 maxLines = 1,
                 style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = Color.Black
             )
         },
         actions = {
