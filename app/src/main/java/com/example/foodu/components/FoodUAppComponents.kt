@@ -26,8 +26,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 
 @Composable
 fun OutlinedInputText(
@@ -153,75 +151,3 @@ fun TopBar(
         }
     )
 }
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun TopBarOrders(
-    text: String,
-    navController: NavController = rememberNavController(),
-) {
-    CenterAlignedTopAppBar(
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Color(0xFF83C5BE),
-            titleContentColor = MaterialTheme.colorScheme.primary,
-        ),
-        title = {
-            Text(
-                text = text,
-                maxLines = 1,
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold
-            )
-        },
-        actions = {
-            IconButton(onClick = { /* do something */ }) {
-                Icon(
-                    imageVector = Icons.Default.ShoppingCart,
-                    contentDescription = "Localized description"
-                )
-            }
-            IconButton(onClick = { /* do something */ }) {
-                Icon(
-                    imageVector = Icons.Default.Person,
-                    contentDescription = "Localized description"
-                )
-            }
-        }
-    )
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun TopBarCupons(
-    text: String,
-    navController: NavController = rememberNavController(),
-) {
-    CenterAlignedTopAppBar(
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Color(0xFF83C5BE),
-            titleContentColor = MaterialTheme.colorScheme.primary,
-        ),
-        title = {
-            Text(
-                text = text,
-                maxLines = 1,
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold
-            )
-        },
-        actions = {
-            IconButton(onClick = { /* do something */ }) {
-                Icon(
-                    imageVector = Icons.Default.ShoppingCart,
-                    contentDescription = "Localized description"
-                )
-            }
-            IconButton(onClick = { /* do something */ }) {
-                Icon(
-                    imageVector = Icons.Default.Person,
-                    contentDescription = "Localized description"
-                )
-            }
-        }
-    )
-}
-
