@@ -39,8 +39,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.foodu.HOME_SCREEN
+import com.example.foodu.ORDERS_SCREEN
+import com.example.foodu.PROMOTIONS_SCREEN
 import com.example.foodu.components.TopBar
 import com.example.foodu.R
+import com.example.foodu.RESTAURANTS_SCREEN
 
 @Preview(showBackground = true)
 @Composable
@@ -98,26 +102,26 @@ fun HomeScreen(
                     icon = { Icon(Icons.Filled.Home, contentDescription = "Home Icon") },
                     label = { Text(text = "Home") },
                     selected = true,
-                    onClick = { /*TODO*/ },
+                    onClick = { navController.navigate(route = HOME_SCREEN) },
                     colors = NavigationBarItemDefaults.colors(indicatorColor = Color(0xFF83C5BE))
                 )
                 NavigationBarItem(
                     icon = { Icon(Icons.Filled.Percent, contentDescription = "Promotions Icon") },
                     label = { Text(text = "Promotions") },
                     selected = false,
-                    onClick = { /*TODO*/ }
+                    onClick = { navController.navigate(route = PROMOTIONS_SCREEN) }
                 )
                 NavigationBarItem(
                     icon = { Icon(Icons.Filled.Store, contentDescription = "Restaurants Icon") },
                     label = { Text(text = "Restaurants") },
                     selected = false,
-                    onClick = { /*TODO*/ }
+                    onClick = { navController.navigate(route = RESTAURANTS_SCREEN) }
                 )
                 NavigationBarItem(
                     icon = { Icon(Icons.Filled.NoteAlt, contentDescription = "Order Icon") },
                     label = { Text(text = "Orders") },
                     selected = false,
-                    onClick = { /*TODO*/ }
+                    onClick = { navController.navigate(route = ORDERS_SCREEN) }
                 )
             }
         }
