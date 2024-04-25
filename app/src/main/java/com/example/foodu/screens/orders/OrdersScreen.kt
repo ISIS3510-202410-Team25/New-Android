@@ -17,6 +17,7 @@ import androidx.compose.material.icons.filled.NoteAlt
 import androidx.compose.material.icons.filled.Percent
 import androidx.compose.material.icons.filled.Store
 import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -24,11 +25,15 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.foodu.HOME_SCREEN
@@ -37,12 +42,19 @@ import com.example.foodu.PROMOTIONS_SCREEN
 import com.example.foodu.RESTAURANTS_SCREEN
 import com.example.foodu.components.TopBar
 
-@Preview(showBackground = true)
+// @Preview(showBackground = true)
 @Composable
 fun OrdersScreen(
     modifier: Modifier = Modifier,
-    navController: NavController = rememberNavController()
+    navController: NavController = rememberNavController(),
+    vm: OrdersViewModel = hiltViewModel()
 ) {
+    val orders by vm.offers.collectAsState(initial = emptyList())
+
+    LaunchedEffect(key1 = Unit) {
+        vm.fetchOrders()
+    }
+
     Column(modifier = modifier
         .fillMaxSize()
     ) {
@@ -75,12 +87,17 @@ fun OrdersScreen(
                 border = BorderStroke(width = 2.dp, color = Color.LightGray)
             ) {
                 LazyColumn(modifier = Modifier.background(Color.Transparent)) {
-                    items(listOf("Another list1", "Another list2", "Another list3")) {item ->
-                        Text(text = item)
+                    items(orders) {item ->
+                        item.id?.let { Text(text = it) }
+                        item.status?.let { Text(text = it) }
                     }
                 }
             }
         }
+        Button(onClick = { vm.createOrder() }) {
+            Text(text = "Create Order")
+        }
+
     }
 
     // Bottom Bar

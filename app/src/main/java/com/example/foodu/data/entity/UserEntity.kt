@@ -13,9 +13,9 @@ data class UserEntity(
     val firstName: String? = null,
     val lastName: String? = null,
     val email: String? = null,
-    val wishlist: Array<String>? = null,
-    val offers: Array<String>? = null,
-    override var collection: String = "user",
+    val wishlist: List<String>? = null,
+    val offers: List<String>? = null,
+    override var collection: String = "users",
 ): BaseEntity(id, createdAt, deletedAt, collection) {
     constructor(data: HashMap<String, Any?>) : this() {
         data.toEntity<UserEntity>()

@@ -3,55 +3,66 @@ package com.example.foodu.screens.orders
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavController
-import com.example.foodu.HOME_SCREEN
-import com.example.foodu.model.service.AccountService
+import com.example.foodu.data.entity.OrderEntity
+import com.example.foodu.repository.FirestoreInstance
+import com.google.firebase.Timestamp
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import java.util.UUID
 import javax.inject.Inject
 
 @HiltViewModel
 class OrdersViewModel @Inject constructor(
-    private val accountService: AccountService
+    private val firestore: FirestoreInstance
 ) : ViewModel() {
 
-    init{
-        Log.d(ERROR_TAG, "ViewModel Loaded!")
-    }
-    val email = MutableStateFlow("")
-    val password = MutableStateFlow("")
-//    val isBlank = MutableStateFlow(true)
-
-    fun updateEmail(newEmail: String) {
-        email.value = newEmail
-    }
-
-    fun updatePassword(newPassword: String) {
-        password.value = newPassword
-    }
-
-    fun onSignInClick(navController: NavController) {
-        launchCatching {
-            accountService.signIn(email.value, password.value)
-            navController.navigate(route = HOME_SCREEN)
+    init {
+        viewModelScope.launch {
+            fetchOrders()
         }
     }
 
-    fun onSignUpClick(navController: NavController) {
-        navController.navigate(route = HOME_SCREEN)
+    private val _orders = MutableStateFlow<List<OrderEntity>>(emptyList())
+    val offers: StateFlow<List<OrderEntity>> = _orders.asStateFlow()
+
+    suspend fun fetchOrders() {
+        try {
+            val documents = firestore.readAll("orders")
+
+            val entities = documents.map { document ->
+                Log.d("FIRESTORE RESPONSE", document.toString())
+                val id = document.id
+                val createdAt = (document.getTimestamp("createdAt") ?: Timestamp.now()).toDate()
+                val deletedAt = (document.getTimestamp("deletedAt") ?: Timestamp.now()).toDate()
+                val userId = document.getString("userId") ?: ""
+                val status = document.getString("status") ?: ""
+                val items = (document.get("items") as? List<*>)?.mapNotNull { it as? String }
+
+                OrderEntity(id, createdAt, deletedAt, userId, status, items = items)
+            }
+            updateOrders(entities)
+        } catch (e: Exception) {
+            e.message?.let { Log.e("READ ERROR", it) }
+        }
     }
 
-    private fun launchCatching(block: suspend CoroutineScope.() -> Unit) =
-        viewModelScope.launch (
-            CoroutineExceptionHandler() { _, throwable ->
-                Log.d(ERROR_TAG, throwable.message.orEmpty())
-            },
-            block = block
-        )
-    companion object {
-        const val ERROR_TAG = "FOOD APP ERROR"
+    private fun updateOrders(newList: List<OrderEntity>) {
+        _orders.value = newList
     }
+
+    fun createOrder() {
+        val entity = OrderEntity(
+            id = UUID.randomUUID().toString(),
+            null,
+            null,
+            userId = UUID.randomUUID().toString(),
+            status = "delivered",
+            items = listOf(UUID.randomUUID().toString(), UUID.randomUUID().toString())
+        )
+        firestore.write(entity)
+    }
+
 }

@@ -9,12 +9,12 @@ data class OrderEntity(
     override var createdAt: Date? = null,
     @ServerTimestamp
     override var deletedAt: Date? = null,
-    override var collection: String = "order",
+    override var collection: String = "orders",
 
 
     var userId: String? = null,
     var status: String? = null,
-    var items: Array<String>? = null,
+    var items: List<String>? = null,
 ): BaseEntity(id, createdAt, deletedAt, collection) {
     constructor(data: HashMap<String, Any?>) : this() {
         data.toEntity<OrderEntity>()

@@ -9,14 +9,14 @@ data class ProductEntity (
     override var createdAt: Date? = null,
     @ServerTimestamp
     override var deletedAt: Date? = null,
-    override var collection: String = "order",
+    override var collection: String = "products",
 
 
     var restaurantId: String? = null,
     var name: String? = null,
     var basePrice: Float? = null,
     var description: String? = null,
-    var tags: Array<String>? = null,
+    var tags: List<String>? = null,
     var rating: Float? = null,
 
     ): BaseEntity(id, createdAt, deletedAt, collection) {

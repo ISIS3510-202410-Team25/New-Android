@@ -6,8 +6,10 @@ import com.example.foodu.data.entity.BaseEntity
 import com.google.android.gms.tasks.Task
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.DocumentReference
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.firestore
+import kotlinx.coroutines.tasks.await
 
 class FirestoreInstance {
     private val db = Firebase.firestore
@@ -69,23 +71,21 @@ class FirestoreInstance {
             }
     }
 
-    fun readAll(collection: String) {
-        var list: Array<Any> = arrayOf()
-        db.collection(collection)
-            .whereEqualTo("deletedAt", "")
-            .get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    Log.d(TAG, "${document.id} => ${document.data}")
-                    val id = document.id
-                    val data = document.data
-                    data["id"] = id
-                    list += data
-                }
+    suspend fun readAll(collection: String): List<DocumentSnapshot> {
+        val list = mutableListOf<DocumentSnapshot>()
+        try {
+            val result = db.collection(collection)
+                .whereEqualTo("deletedAt", null)
+                .get()
+                .await()
+
+            for (document in result.documents) {
+                list.add(document)
             }
-            .addOnFailureListener { exception ->
-                Log.d(TAG, "Error getting documents: ", exception)
-            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error getting documents: ", e)
+        }
+        return list
     }
 
     fun deleteWithEntity(entity: BaseEntity): Task<DocumentReference> {

@@ -10,7 +10,7 @@ data class RestaurantEntity (
     override var createdAt: Date? = null,
     @ServerTimestamp
     override var deletedAt: Date? = null,
-    override var collection: String = "order",
+    override var collection: String = "restaurants",
 
 
     var name: String? = null,

@@ -9,7 +9,7 @@ data class WalletEntity (
     override var createdAt: Date? = null,
     @ServerTimestamp
     override var deletedAt: Date? = null,
-    override var collection: String = "wallet",
+    override var collection: String = "wallets",
 
 
     val userId: String? = null,
