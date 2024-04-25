@@ -32,43 +32,28 @@ class FirestoreInstance {
         return ref
     }
 
-    fun readDocWithDocID(collection: String, docId: String): MutableMap<String, Any>? {
-        val docRef = db.collection(collection).document(docId)
-        var data: MutableMap<String, Any>? = null
-        var id: String?
-        docRef.get()
-            .addOnSuccessListener { document ->
-                if (document != null) {
-                    Log.d(TAG, "DocumentSnapshot data: ${document.data}")
-                    id = document.id
-                    data = document.data
-                    data?.set("id", id!!)
-                } else {
-                    Log.d(TAG, "No such document")
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.d(TAG, "get failed with ", exception)
-            }
-        return data
+    suspend fun readDocWithDocID(collection: String, docId: String): DocumentSnapshot? {
+        return try {
+            db.collection(collection).document(docId).get().await()
+        } catch (e: Exception) {
+            Log.e(TAG, "Error getting documents: ", e)
+            null
+        }
+
     }
 
-    fun readAllWithDeleted(collection: String) {
-        var list: Array<Any> = arrayOf()
-        db.collection(collection)
-            .get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    Log.d(TAG, "${document.id} => ${document.data}")
-                    val id = document.id
-                    val data = document.data
-                    data["id"] = id
-                    list += data
-                }
+    suspend fun readAllWithDeleted(collection: String): MutableList<DocumentSnapshot> {
+        val list = mutableListOf<DocumentSnapshot>()
+        try {
+            val res = db.collection(collection).get().await()
+            for (document in res.documents) {
+                list.add(document)
             }
-            .addOnFailureListener { exception ->
-                Log.d(TAG, "Error getting documents: ", exception)
-            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error getting documents: ", e)
+        }
+        return list
+
     }
 
     suspend fun readAll(collection: String): List<DocumentSnapshot> {
@@ -81,6 +66,24 @@ class FirestoreInstance {
 
             for (document in result.documents) {
                 list.add(document)
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Error getting documents: ", e)
+        }
+        return list
+    }
+
+    suspend fun readFilter(collection: String, attrName: String, attrVal: String): List<DocumentSnapshot> {
+        val list = mutableListOf<DocumentSnapshot>()
+        try {
+            val res = db.collection(collection)
+                .whereEqualTo(attrName, attrVal)
+                .whereEqualTo("deletedAt", null)
+                .get()
+                .await()
+
+            for (doc in res.documents) {
+                list.add(doc)
             }
         } catch (e: Exception) {
             Log.e(TAG, "Error getting documents: ", e)
