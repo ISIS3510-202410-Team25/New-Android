@@ -38,7 +38,7 @@ class OrdersViewModel @Inject constructor(
 
     suspend fun fetchOrders() {
         try {
-            val documents = firestore.readAll("orders")
+            val documents = firestore.readFilter("orders", "userId", "101dc99b-fc80-429c-8072-2ffa44d54367")
 
             val entities = documents.map { document ->
                 Log.d("FIRESTORE RESPONSE", document.toString())

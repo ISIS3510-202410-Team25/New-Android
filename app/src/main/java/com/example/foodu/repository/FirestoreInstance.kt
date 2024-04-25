@@ -4,6 +4,7 @@ import android.content.ContentValues.TAG
 import android.util.Log
 import com.example.foodu.data.entity.BaseEntity
 import com.google.android.gms.tasks.Task
+
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
@@ -89,6 +90,25 @@ class FirestoreInstance {
             Log.e(TAG, "Error getting documents: ", e)
         }
         return list
+    }
+
+    suspend fun fetchDetailsFromIdList(collection: String, ids: List<String>) {
+        val data = mutableListOf<DocumentSnapshot>()
+        val colRef = db.collection(collection)
+        ids.forEach {
+            id ->
+            val ref = colRef.document(id)
+            try {
+                val doc = ref.get().await()
+                if (doc.exists()) {
+                    data.add(doc)
+                } else {
+                    Log.d("FIREBASE ERROR", "Document with ID $id not found")
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Error getting documents: ", e)
+            }
+        }
     }
 
     fun deleteWithEntity(entity: BaseEntity): Task<DocumentReference> {
