@@ -7,9 +7,12 @@ import com.example.foodu.data.entity.OrderEntity
 import com.example.foodu.repository.FirestoreInstance
 import com.google.firebase.Timestamp
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.UUID
 import javax.inject.Inject
@@ -19,14 +22,19 @@ class OrdersViewModel @Inject constructor(
     private val firestore: FirestoreInstance
 ) : ViewModel() {
 
+    private val _fetchOrdersTrigger = MutableSharedFlow<Unit>()
+    val fetchOrdersTrigger = _fetchOrdersTrigger.asSharedFlow()
+
     init {
         viewModelScope.launch {
-            fetchOrders()
+            fetchOrdersTrigger.collectLatest { fetchOrders() }
         }
     }
 
     private val _orders = MutableStateFlow<List<OrderEntity>>(emptyList())
     val offers: StateFlow<List<OrderEntity>> = _orders.asStateFlow()
+
+
 
     suspend fun fetchOrders() {
         try {
@@ -63,6 +71,10 @@ class OrdersViewModel @Inject constructor(
             items = listOf(UUID.randomUUID().toString(), UUID.randomUUID().toString())
         )
         firestore.write(entity)
+
+        viewModelScope.launch {
+            _fetchOrdersTrigger.emit(Unit)
+        }
     }
 
 }
