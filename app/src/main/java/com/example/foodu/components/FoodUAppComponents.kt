@@ -115,13 +115,12 @@ fun OutlinedPassword(
         isError = isError
     )
 }
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(
     text: String,
 
-) {
+    ) {
     CenterAlignedTopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = Color(0xFF83C5BE),
@@ -132,7 +131,8 @@ fun TopBar(
                 text = text,
                 maxLines = 1,
                 style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = Color.Black
             )
         },
         actions = {

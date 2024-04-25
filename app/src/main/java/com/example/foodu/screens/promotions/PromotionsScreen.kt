@@ -1,16 +1,8 @@
-package com.example.foodu.screens.orders
+package com.example.foodu.screens.promotions
 
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CornerSize
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.NoteAlt
@@ -21,7 +13,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -39,50 +30,21 @@ import com.example.foodu.components.TopBar
 
 @Preview(showBackground = true)
 @Composable
-fun OrdersScreen(
+fun PromotionsScreen(
     modifier: Modifier = Modifier,
     navController: NavController = rememberNavController()
 ) {
-    Column(modifier = modifier
-        .fillMaxSize()
+    Column(
+        modifier = modifier.fillMaxSize()
     ) {
         // Top bar
-        TopBar(text = "Orders")
+        TopBar(text = "Promotions")
 
-        // The content
-        Text(text = "Current orders")
-        Text(text = "Check the state of your orders")
-        Column(modifier = Modifier.fillMaxWidth()) {
-            Surface(
-                modifier = Modifier.padding(3.dp),
-                shape = RoundedCornerShape(corner = CornerSize(6.dp)),
-                border = BorderStroke(width = 2.dp, color = Color.LightGray)
-            ) {
-                LazyColumn(modifier = Modifier.background(Color.Transparent)) {
-                    items(listOf("List1", "List2", "List3")) {item ->
-                        Text(text = item)
-                    }
-                }
-            }
-        }
-
-        Text(text = "History of orders")
-        Text(text = "Check your latest orders and restaurants")
-        Column(modifier = Modifier.fillMaxWidth()) {
-            Surface(
-                modifier = Modifier.padding(3.dp),
-                shape = RoundedCornerShape(corner = CornerSize(6.dp)),
-                border = BorderStroke(width = 2.dp, color = Color.LightGray)
-            ) {
-                LazyColumn(modifier = Modifier.background(Color.Transparent)) {
-                    items(listOf("Another list1", "Another list2", "Another list3")) {item ->
-                        Text(text = item)
-                    }
-                }
-            }
-        }
+        /*
+        * Here it goes the content
+        * */
+        Text(text = "Here are the promotions!")
     }
-
     // Bottom Bar
     Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.BottomEnd) {
         BottomAppBar {
@@ -96,8 +58,9 @@ fun OrdersScreen(
                 NavigationBarItem(
                     icon = { Icon(Icons.Filled.Percent, contentDescription = "Promotions Icon") },
                     label = { Text(text = "Promotions") },
-                    selected = false,
-                    onClick = { navController.navigate(route = PROMOTIONS_SCREEN) }
+                    selected = true,
+                    onClick = { navController.navigate(route = PROMOTIONS_SCREEN) },
+                    colors = NavigationBarItemDefaults.colors(indicatorColor = Color(0xFF83C5BE))
                 )
                 NavigationBarItem(
                     icon = { Icon(Icons.Filled.Store, contentDescription = "Restaurants Icon") },
@@ -108,9 +71,8 @@ fun OrdersScreen(
                 NavigationBarItem(
                     icon = { Icon(Icons.Filled.NoteAlt, contentDescription = "Order Icon") },
                     label = { Text(text = "Orders") },
-                    selected = true,
+                    selected = false,
                     onClick = { navController.navigate(route = ORDERS_SCREEN) },
-                    colors = NavigationBarItemDefaults.colors(indicatorColor = Color(0xFF83C5BE))
                 )
             }
         }
