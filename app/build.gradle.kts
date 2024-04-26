@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -104,8 +106,8 @@ dependencies {
     implementation("com.google.firebase:firebase-crashlytics")
     implementation("com.google.firebase:firebase-analytics")
 
-    // Google Auth
-
+    // Google Sign In
+    implementation("com.google.android.gms:play-services-auth:21.1.0")
 
     implementation("androidx.compose.compiler:compiler:1.5.12")
 
@@ -114,6 +116,10 @@ dependencies {
 
     // Kotlin Utils
     implementation(kotlin("reflect"))
+
+    // Biometric Auth
+    implementation("androidx.biometric:biometric:1.1.0")
+    implementation("androidx.appcompat:appcompat:1.6.1")
 }
 
 kapt {

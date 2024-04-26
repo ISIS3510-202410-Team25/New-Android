@@ -5,7 +5,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -51,7 +50,7 @@ fun SignUpScreen(
     val email = viewModel.email.collectAsState()
     val password = viewModel.password.collectAsState()
 
-    // test
+    // Input validation
     val invalidEmail = viewModel.invalidEmail.collectAsState()
     val invalidPassword = viewModel.invalidPassword.collectAsState()
     val checked = remember { mutableStateOf(false) }
@@ -123,7 +122,7 @@ fun SignUpScreen(
 
         if (invalidEmail.value) {
             Text(
-                text = "Invalid email address.",
+                text = "Please enter a valid email",
                 style = MaterialTheme.typography.labelMedium,
                 color = Color.Red,
                 modifier = Modifier
@@ -152,7 +151,7 @@ fun SignUpScreen(
 
         if (invalidPassword.value) {
             Text(
-                text = "Please enter at least 6 characters with digits and letters",
+                text = "Please enter at least 6 characters",
                 style = MaterialTheme.typography.labelMedium,
                 color = Color.Red,
                 modifier = Modifier

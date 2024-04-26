@@ -7,6 +7,7 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
+import androidx.compose.material.icons.rounded.CurrencyBitcoin
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -118,9 +119,8 @@ fun OutlinedPassword(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(
-    text: String,
-
-    ) {
+    text: String
+) {
     CenterAlignedTopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = Color(0xFF83C5BE),
@@ -134,6 +134,14 @@ fun TopBar(
                 fontWeight = FontWeight.Bold,
                 color = Color.Black
             )
+        },
+        navigationIcon = {
+            IconButton(onClick = { /* do something */ }) {
+                Icon(
+                    imageVector = Icons.Rounded.CurrencyBitcoin,
+                    contentDescription = "Localized description"
+                )
+            }
         },
         actions = {
             IconButton(onClick = { /* do something */ }) {

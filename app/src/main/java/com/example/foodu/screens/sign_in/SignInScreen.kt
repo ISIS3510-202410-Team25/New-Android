@@ -1,8 +1,11 @@
 package com.example.foodu.screens.sign_in
 
+import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -30,22 +33,30 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.example.foodu.R
 import com.example.foodu.SIGN_UP_SCREEN
 import com.example.foodu.components.OutlinedInputText
 import com.example.foodu.components.OutlinedPassword
 import com.example.foodu.util.rememberImeState
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.GoogleAuthProvider
 
+@Preview(showBackground = true)
 @Composable
 fun SignInScreen(
-    modifier: Modifier,
-    navController: NavController,
+    modifier: Modifier = Modifier,
+    navController: NavController = rememberNavController(),
     viewModel: SignInViewModel = hiltViewModel()
 ) {
 
@@ -53,8 +64,27 @@ fun SignInScreen(
     val password = viewModel.password.collectAsState()
     val errorMessage = viewModel.errorMessage.collectAsState()
 
+    // Input Validation
+    val invalidEmail = viewModel.invalidEmail.collectAsState()
+    val invalidPassword = viewModel.invalidPassword.collectAsState()
+
     val imeState = rememberImeState()
     val scrollState = rememberScrollState()
+
+    val launcher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) {
+        val task = GoogleSignIn.getSignedInAccountFromIntent(it.data)
+        try {
+            val account = task.getResult(ApiException::class.java)
+            val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+            viewModel.signInWithGoogleCredential(credential, navController)
+        } catch (ex: Exception) {
+            Log.d("LOGIN SIGN IN", "Google sign in failed!")
+        }
+    }
+    val token = "834956701513-8i1eqrj1eaalho6ap5cvuth83i404klq.apps.googleusercontent.com"
+    val context = LocalContext.current
 
     LaunchedEffect(key1 = imeState.value) {
         if (imeState.value){
@@ -105,6 +135,21 @@ fun SignInScreen(
             isError = email.value.isEmpty()
         )
 
+        if (invalidEmail.value) {
+            Text(
+                text = "Please enter a valid email",
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.error,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp, start = 16.dp)
+            )
+        } else {
+            Box {
+
+            }
+        }
+
         OutlinedPassword(
             modifier = modifier
                 .fillMaxWidth()
@@ -118,15 +163,30 @@ fun SignInScreen(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             isError = password.value.isEmpty()
         )
-        
-        errorMessage.value?.let {
+
+        if (invalidPassword.value) {
             Text(
-                text = "Invalid email or password.",
+                text = "Please enter at least 6 characters",
+                style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.error,
-                modifier = Modifier.padding(top = 8.dp),
-                textAlign = TextAlign.Center
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp, start = 16.dp)
             )
+        } else {
+            Box {
+
+            }
         }
+        
+//        errorMessage.value?.let {
+//            Text(
+//                text = "Invalid email or password.",
+//                color = MaterialTheme.colorScheme.error,
+//                modifier = Modifier.padding(top = 8.dp),
+//                textAlign = TextAlign.Center
+//            )
+//        }
         Button(
             onClick = { viewModel.onSignInClick(navController) },
             modifier = modifier
@@ -168,18 +228,41 @@ fun SignInScreen(
                 thickness = 1.dp
             )
         }
-        IconButton(
-            onClick = { /*TODO*/ }, modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(top = 16.dp)
-        ) {
-            Image(
-                painter = painterResource(R.drawable.google_icon),
-                contentDescription = "Google Icon",
-                modifier = Modifier
-                    .width(48.dp)
-                    .height(48.dp)
-            )
+        Row (modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+            IconButton(
+                onClick = {
+                    val options = GoogleSignInOptions.Builder(
+                        GoogleSignInOptions.DEFAULT_SIGN_IN
+                    )
+                        .requestIdToken(token)
+                        .requestEmail()
+                        .build()
+
+                    val googleSignInClient = GoogleSignIn.getClient(context, options)
+                    launcher.launch(googleSignInClient.signInIntent)
+                },
+                modifier = Modifier.padding(top = 16.dp)
+            ) {
+                Image(
+                    painter = painterResource(R.drawable.google_icon),
+                    contentDescription = "Google Icon",
+                    modifier = Modifier
+                        .width(48.dp)
+                        .height(48.dp)
+                )
+            }
+
+            IconButton(
+                onClick = { /*TODO*/ },
+                modifier = Modifier.padding(top = 16.dp)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.fingerprint),
+                    contentDescription = "Fingerprint Login",
+                    modifier = Modifier
+                        .width(56.dp)
+                        .height(56.dp))
+            }
         }
     }
 }
