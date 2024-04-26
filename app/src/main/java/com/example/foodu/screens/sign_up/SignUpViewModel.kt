@@ -1,5 +1,6 @@
 package com.example.foodu.screens.sign_up
 
+import androidx.biometric.BiometricPrompt
 import androidx.navigation.NavController
 import com.example.foodu.HOME_SCREEN
 import com.example.foodu.model.service.AccountService
@@ -16,8 +17,10 @@ class SignUpViewModel @Inject constructor(
     val username = MutableStateFlow("")
     val email = MutableStateFlow("")
     val password = MutableStateFlow("")
-    val invalidEmail = MutableStateFlow(false)
-    val invalidPassword = MutableStateFlow(false)
+
+    // Check validation
+    var invalidEmail = MutableStateFlow(false)
+    var invalidPassword = MutableStateFlow(false)
 
     fun updateUsername(newUsername: String) {
         username.value = newUsername
@@ -35,12 +38,16 @@ class SignUpViewModel @Inject constructor(
         launchCatching {
             if (!email.value.isValidEmail()) {
                 invalidEmail.value = true
-                throw IllegalArgumentException("Invalid email format")
+//                throw IllegalArgumentException("Invalid email format")
+            } else {
+                invalidEmail.value = !invalidEmail.value
             }
 
             if (!password.value.isValidPassword()) {
                 invalidPassword.value = true
-                throw IllegalArgumentException("Invalid Password")
+//                throw IllegalArgumentException("Invalid Password")
+            } else {
+                invalidPassword.value = !invalidPassword.value
             }
 
             accountService.signUp(email.value, password.value)
