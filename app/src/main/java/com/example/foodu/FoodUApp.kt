@@ -33,7 +33,7 @@ fun FoodUNavigation() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = HOME_SCREEN
+        startDestination = SIGN_IN_SCREEN
     ) {
 
         

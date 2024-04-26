@@ -6,12 +6,16 @@ import com.example.foodu.model.service.AccountService
 import com.example.foodu.screens.FoodUAppViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
     private val accountService: AccountService
 ) : FoodUAppViewModel() {
+
+    private val _errorMessage = MutableStateFlow<String?>(null)
+    val errorMessage: StateFlow<String?> = _errorMessage
 
     val email = MutableStateFlow("")
     val password = MutableStateFlow("")

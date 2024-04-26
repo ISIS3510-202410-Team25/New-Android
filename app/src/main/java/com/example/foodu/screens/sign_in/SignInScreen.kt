@@ -51,6 +51,7 @@ fun SignInScreen(
 
     val email = viewModel.email.collectAsState()
     val password = viewModel.password.collectAsState()
+    val errorMessage = viewModel.errorMessage.collectAsState()
 
     val imeState = rememberImeState()
     val scrollState = rememberScrollState()
@@ -117,7 +118,15 @@ fun SignInScreen(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             isError = password.value.isEmpty()
         )
-
+        
+        errorMessage.value?.let {
+            Text(
+                text = "Invalid email or password.",
+                color = MaterialTheme.colorScheme.error,
+                modifier = Modifier.padding(top = 8.dp),
+                textAlign = TextAlign.Center
+            )
+        }
         Button(
             onClick = { viewModel.onSignInClick(navController) },
             modifier = modifier
