@@ -96,6 +96,7 @@ fun HomeScreen(
     }
 
     Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.BottomEnd) {
+        Text(text = "Estas a 1 click de revisar tus ordenes!", modifier = modifier.padding(start = 16.dp, top = 8.dp))
         BottomAppBar {
             NavigationBar(containerColor = Color.White, tonalElevation = 2.dp) {
                 NavigationBarItem(
