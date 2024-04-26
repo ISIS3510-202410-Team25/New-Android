@@ -97,7 +97,7 @@ dependencies {
 
     // Firebase
     implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
-    implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.firebase:firebase-auth:22.3.1")
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.google.firebase:firebase-analytics-ktx")
     implementation("com.google.firebase:firebase-perf")
@@ -105,7 +105,7 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
 
     // Google Auth
-    implementation("com.google.android.gms:play-services-auth:21.1.0")
+
 
     implementation("androidx.compose.compiler:compiler:1.5.12")
 
