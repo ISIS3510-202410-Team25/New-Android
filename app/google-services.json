@@ -12,7 +12,20 @@
           "package_name": "com.example.foodu"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "834956701513-2i6iaj97emcrf6sjhcg6oecfp5m32qf2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.foodu",
+            "certificate_hash": "3119a85a5c36d1e1a9c2129bca6d020716ea6ecc"
+          }
+        },
+        {
+          "client_id": "834956701513-8i1eqrj1eaalho6ap5cvuth83i404klq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAN2J1PZzx-DK98snK0We0i20RJkNpIzCk"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "834956701513-8i1eqrj1eaalho6ap5cvuth83i404klq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "834956701513-mg205vb35jje6mummesh8khi82oaqljc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.moviles.RestaurantsApp"
+              }
+            }
+          ]
         }
       }
     },
@@ -31,7 +56,12 @@
           "package_name": "com.moviles.RestaurantsApp"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "834956701513-8i1eqrj1eaalho6ap5cvuth83i404klq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAN2J1PZzx-DK98snK0We0i20RJkNpIzCk"
@@ -39,7 +69,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "834956701513-8i1eqrj1eaalho6ap5cvuth83i404klq.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "834956701513-mg205vb35jje6mummesh8khi82oaqljc.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.moviles.RestaurantsApp"
+              }
+            }
+          ]
         }
       }
     }

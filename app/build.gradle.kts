@@ -104,6 +104,9 @@ dependencies {
     implementation("com.google.firebase:firebase-crashlytics")
     implementation("com.google.firebase:firebase-analytics")
 
+    // Google Auth
+    implementation("com.google.android.gms:play-services-auth:21.1.0")
+
     implementation("androidx.compose.compiler:compiler:1.5.12")
 
     // Splash Screen
