@@ -3,20 +3,14 @@ package com.example.foodu.data.entity
 import com.google.firebase.firestore.ServerTimestamp
 import java.util.Date
 
-data class OfferEntity (
-    override var id: String? = null,
+class OfferEntity (
+    override var id: String,
     @ServerTimestamp
-    override var createdAt: Date? = null,
+    override var createdAt: Date?,
     @ServerTimestamp
-    override var deletedAt: Date? = null,
+    override var deletedAt: Date?,
+    var productId: String,
+    var state: String,
+    var type: String,
     override var collection: String = "offers",
-
-
-    var productId: String? = null,
-    var state: String? = null,
-    var type: String? = null,
-): BaseEntity(id, createdAt, deletedAt, collection) {
-    constructor(data: HashMap<String, Any?>) : this() {
-        data.toEntity<OfferEntity>()
-    }
-}
+): BaseEntity(id, createdAt, deletedAt, collection)

@@ -17,7 +17,6 @@ import androidx.compose.material.icons.filled.NoteAlt
 import androidx.compose.material.icons.filled.Percent
 import androidx.compose.material.icons.filled.Store
 import androidx.compose.material3.BottomAppBar
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -31,7 +30,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -49,10 +47,13 @@ fun OrdersScreen(
     navController: NavController = rememberNavController(),
     vm: OrdersViewModel = hiltViewModel()
 ) {
-    val orders by vm.offers.collectAsState(initial = emptyList())
+    val currOrders by vm.currentOrders.collectAsState(initial = emptyList())
+    val histOrders by vm.historicOrders.collectAsState(initial = emptyList())
 
     LaunchedEffect(key1 = Unit) {
-        vm.fetchOrders()
+        vm.createData()
+        vm.fetchAllOrders()
+
     }
 
     Column(modifier = modifier
@@ -71,8 +72,10 @@ fun OrdersScreen(
                 border = BorderStroke(width = 2.dp, color = Color.LightGray)
             ) {
                 LazyColumn(modifier = Modifier.background(Color.Transparent)) {
-                    items(listOf("List1", "List2", "List3")) {item ->
-                        Text(text = item)
+                    items(currOrders) {item ->
+                        Text(text = item.restaurantName?:"Res not found")
+                        Text(text = item.restaurantAddress?: "No Address")
+                        Text(text = "${item.total} $ COP")
                     }
                 }
             }
@@ -87,17 +90,14 @@ fun OrdersScreen(
                 border = BorderStroke(width = 2.dp, color = Color.LightGray)
             ) {
                 LazyColumn(modifier = Modifier.background(Color.Transparent)) {
-                    items(orders) {item ->
-                        item.id?.let { Text(text = it) }
-                        item.status?.let { Text(text = it) }
+                    items(histOrders) {item ->
+                        Text(text = item.restaurantName?:"Res not found")
+                        Text(text = item.restaurantAddress?: "No Address")
+                        Text(text = "${item.total} $ COP")
                     }
                 }
             }
         }
-        Button(onClick = { vm.createOrder() }) {
-            Text(text = "Create Order")
-        }
-
     }
 
     // Bottom Bar

@@ -1,22 +1,35 @@
 package com.example.foodu.data.entity
 
+import android.util.Log
+import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.ServerTimestamp
 import java.util.Date
 
-data class OrderEntity(
-    override var id: String? = null,
-    @ServerTimestamp
-    override var createdAt: Date? = null,
-    @ServerTimestamp
-    override var deletedAt: Date? = null,
+class OrderEntity(
+    override var id: String,
+    @ServerTimestamp override var createdAt: Date?,
+    @ServerTimestamp override var deletedAt: Date?,
+    var userId: String,
+    var status: String,
+    var items: List<String>,
     override var collection: String = "orders",
+) : BaseEntity(id, createdAt, deletedAt, collection) {
 
-
-    var userId: String? = null,
-    var status: String? = null,
-    var items: List<String>? = null,
-): BaseEntity(id, createdAt, deletedAt, collection) {
-    constructor(data: HashMap<String, Any?>) : this() {
-        data.toEntity<OrderEntity>()
+    companion object {
+        fun docToEntity(doc: DocumentSnapshot): OrderEntity? {
+            return try {
+                val id = doc.id
+                val createdAt = doc.getTimestamp("createdAt")?.toDate()
+                val deletedAt = doc.getTimestamp("deletedAt")?.toDate()
+                val userId = doc.getString("userId") ?: throw Exception("userId is null")
+                val status = doc.getString("status") ?: throw Exception("status is null")
+                val items = (doc.get("items") as? List<*>)?.mapNotNull { it as String }
+                    ?: throw Exception("items is null")
+                OrderEntity(id, createdAt, deletedAt, userId, status, items)
+            } catch (e: Exception) {
+                Log.d("ORDER ERROR", "Could not parse." + e.message)
+                null
+            }
+        }
     }
 }

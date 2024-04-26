@@ -77,7 +77,8 @@ dependencies {
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.8.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
 
     // Icons
     implementation("androidx.compose.material:material-icons-extended:1.6.6")
@@ -86,7 +87,7 @@ dependencies {
     implementation("androidx.navigation:navigation-compose:2.7.7")
 
     // ViewModel
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose-android:2.8.0-alpha04")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose-android:2.8.0-beta01")
 
     // Hilt - Dagger
     implementation("com.google.dagger:hilt-android:2.51.1")
@@ -103,7 +104,7 @@ dependencies {
     implementation("com.google.firebase:firebase-crashlytics")
     implementation("com.google.firebase:firebase-analytics")
 
-    implementation("androidx.compose.compiler:compiler:1.5.11")
+    implementation("androidx.compose.compiler:compiler:1.5.12")
 
     // Splash Screen
     implementation("androidx.core:core-splashscreen:1.0.1")

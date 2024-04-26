@@ -9,6 +9,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.tasks.await
 
@@ -21,15 +22,11 @@ class FirestoreInstance {
         return entity
     }
 
-    fun write(entity: BaseEntity): Task<DocumentReference> {
-        val ref = db.collection(entity.collection)
-            .add(addTimestamps(entity.toHashMap()))
-            .addOnSuccessListener { documentReference ->
-                Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-            }
-            .addOnFailureListener { e ->
-                Log.w(TAG, "Error adding document", e)
-            }
+    suspend fun write(entity: BaseEntity): DocumentReference? {
+        val id = entity.id
+        val ref =  db.collection(entity.collection).document(id)
+        val data = entity.toHashMap()
+        ref.set(addTimestamps(data)).await()
         return ref
     }
 
@@ -40,7 +37,6 @@ class FirestoreInstance {
             Log.e(TAG, "Error getting documents: ", e)
             null
         }
-
     }
 
     suspend fun readAllWithDeleted(collection: String): MutableList<DocumentSnapshot> {
@@ -74,14 +70,18 @@ class FirestoreInstance {
         return list
     }
 
-    suspend fun readFilter(collection: String, attrName: String, attrVal: String): List<DocumentSnapshot> {
+
+    suspend fun readFilters(collection: String, filters: List<Filter>): List<DocumentSnapshot> {
         val list = mutableListOf<DocumentSnapshot>()
         try {
-            val res = db.collection(collection)
-                .whereEqualTo(attrName, attrVal)
-                .whereEqualTo("deletedAt", null)
-                .get()
-                .await()
+            val colRef = db.collection(collection)
+
+            var query: Query = colRef
+            for (filter in filters) {
+                query = query.whereEqualTo(filter.attrName, filter.attrVal)
+            }
+
+            val res = query.get().await()
 
             for (doc in res.documents) {
                 list.add(doc)
@@ -92,11 +92,10 @@ class FirestoreInstance {
         return list
     }
 
-    suspend fun fetchDetailsFromIdList(collection: String, ids: List<String>) {
+    suspend fun fetchDetailsFromIdList(collection: String, ids: List<String>?): MutableList<DocumentSnapshot> {
         val data = mutableListOf<DocumentSnapshot>()
         val colRef = db.collection(collection)
-        ids.forEach {
-            id ->
+        ids?.forEach { id ->
             val ref = colRef.document(id)
             try {
                 val doc = ref.get().await()
@@ -109,6 +108,7 @@ class FirestoreInstance {
                 Log.e(TAG, "Error getting documents: ", e)
             }
         }
+        return data
     }
 
     fun deleteWithEntity(entity: BaseEntity): Task<DocumentReference> {
