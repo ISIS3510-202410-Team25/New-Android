@@ -36,7 +36,7 @@ class PromotionsViewModel @Inject constructor(
     val historicPromotions: StateFlow<List<PromotionsViewModel.PromotionDetail>> = _historicOffers.asStateFlow()
 
     init {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             fetchPromotionsTrigger.collectLatest { fetchAllPromotions() }
         }
     }

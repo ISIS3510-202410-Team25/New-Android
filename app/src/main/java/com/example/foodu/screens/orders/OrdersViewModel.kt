@@ -31,7 +31,7 @@ class OrdersViewModel @Inject constructor(
     private val fetchOrdersTrigger = _fetchOrdersTrigger.asSharedFlow()
 
     init {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             fetchOrdersTrigger.collectLatest { fetchAllOrders() }
         }
     }
