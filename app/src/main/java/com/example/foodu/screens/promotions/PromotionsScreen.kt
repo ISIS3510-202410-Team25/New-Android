@@ -88,7 +88,6 @@ fun PromotionsScreen(
                 }
             }
         }
-
     }
     // Bottom Bar
     Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.BottomEnd) {

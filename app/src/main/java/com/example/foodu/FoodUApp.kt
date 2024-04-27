@@ -11,6 +11,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.foodu.screens.home.HomeScreen
 import com.example.foodu.screens.orders.OrdersScreen
 import com.example.foodu.screens.promotions.PromotionsScreen
+import com.example.foodu.screens.restaurants.RestaurantDetailScreen
 import com.example.foodu.screens.restaurants.RestaurantsScreen
 import com.example.foodu.screens.sign_in.SignInScreen
 import com.example.foodu.screens.sign_up.SignUpScreen
@@ -59,6 +60,10 @@ fun FoodUNavigation() {
         
         composable(ORDERS_SCREEN) {
             OrdersScreen(modifier = Modifier, navController = navController)
+        }
+
+        composable(RESTAURANTS_DETAIL_SCREEN) {
+            RestaurantDetailScreen(modifier = Modifier, navController = navController)
         }
     }
 }

@@ -103,7 +103,7 @@ fun OrdersScreen(
         }
         }
 
-        Text(text = "History of orders: " +histOrders.size,style = MaterialTheme.typography.titleLarge,
+        Text(text = "History of orders" +currOrders.size,style = MaterialTheme.typography.titleLarge,
             fontWeight = FontWeight.Bold,
             color = Color.Black)
         Text(text = "Check your latest orders and restaurants: ")
