@@ -1,5 +1,7 @@
 package com.example.foodu.screens.restaurants
 
+
+import android.content.Context
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -32,6 +34,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -47,13 +51,27 @@ import com.example.foodu.R
 import com.example.foodu.RESTAURANTS_DETAIL_SCREEN
 import com.example.foodu.RESTAURANTS_SCREEN
 import com.example.foodu.components.TopBar
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Observer
 
-@Preview(showBackground = true)
+// @Preview(showBackground = true)
 @Composable
 fun RestaurantsScreen(
+
     modifier: Modifier = Modifier,
-    navController: NavController = rememberNavController()
-) {
+    navController: NavController = rememberNavController(),
+
+    ) {
+    //val isConnected = viewModel.isConnected.value ?: false
+
+    //if (!isConnected) {
+    //    Text("No hay conexión a Internet")
+    //}
+
     Column(
         modifier = modifier.fillMaxSize()
     ) {

@@ -79,38 +79,39 @@ fun RestaurantDetailScreen(
                         .weight(1f)
                         .padding(start = 8.dp)
                 )}
-        }
+            LazyColumn {
+                items(items = listOf("Corral", "Callejera", "Corralita")) {
+                    Card(modifier = modifier
+                        .fillMaxWidth()
+                        .height(170.dp)
+                        .padding(8.dp)) {
+                        Row {
+                            Column(modifier = Modifier
+                                .width(250.dp)
+                                .padding(8.dp)) {
+                                Text(text = it, modifier = modifier.padding(start = 16.dp, top = 16.dp), style = MaterialTheme.typography.bodyLarge)
+                                Text(text = "Plate description and specifications", modifier = modifier.padding(top = 16.dp, start = 16.dp), style = MaterialTheme.typography.bodyLarge)
+                                Button(
+                                    onClick = {  },
+                                    modifier = modifier
+                                        .padding(top = 10.dp, start = 10.dp, end = 10.dp)
+                                        .width(120.dp)
+                                        .height(40.dp),
 
-        LazyColumn {
-            items(items = listOf("Corral", "Callejera", "Corralita")) {
-                Card(modifier = modifier
-                    .fillMaxWidth()
-                    .height(170.dp)
-                    .padding(8.dp)) {
-                    Row {
-                        Column(modifier = Modifier
-                            .width(250.dp)
-                            .padding(8.dp)) {
-                            Text(text = it, modifier = modifier.padding(start = 16.dp, top = 16.dp), style = MaterialTheme.typography.bodyLarge)
-                            Text(text = "Plate description and specifications", modifier = modifier.padding(top = 16.dp, start = 16.dp), style = MaterialTheme.typography.bodyLarge)
-                            Button(
-                                onClick = {  },
-                                modifier = modifier
-                                    .padding(top = 10.dp, start = 10.dp, end = 10.dp)
-                                    .width(120.dp)
-                                    .height(40.dp),
-
-                                ) {
-                                Text("Add to cart")
+                                    ) {
+                                    Text("Add to cart")
+                                }
                             }
-                        }
-                        Column {
-                            Image(painter = painterResource(R.drawable.salad), contentDescription = null)
+                            Column {
+                                Image(painter = painterResource(R.drawable.salad), contentDescription = null)
+                            }
                         }
                     }
                 }
             }
         }
+
+
         // Bottom Bar
         Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.BottomEnd) {
             BottomAppBar {
